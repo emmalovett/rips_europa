@@ -15,10 +15,18 @@ pro europa_master, part=part
   ;Written C. Schmidt BU CSP June 5 2018
   ;Modified by P. Lierle BU CSP Nov 30 2021
   ;Modified by E. Lovett BU CSP May 27 2021
+  user = 'Emma'
+  case 1 of
+   user eq 'carl': Directory = 'C:\Users\schmidtc\Perkins RIPS - April 2018'
+   user eq 'Emma': begin
+     Directory_mac   = '/DATA/Perkins/Perkins RIPS - April 2018/'
+     Directory_PC    = 'C:\Users\elovett\EuropaResearch\More Europa Data\Perkins RIPS - April 2018'
+     Directory       = Directory_PC
+     stop
+   end  
+  endcase 
 
-  Directory_mac   = '/DATA/Perkins/Perkins RIPS - April 2018/'
-  Directory_PC    = 'C:\Users\elovett\EuropaResearch\More Europa Data\Perkins RIPS - April 2018'
-  Directory       = Directory_PC
+
   imaging_statsec = '[183 : 809, 39 : 444]'
   spectra_statsec = '[ 99 : 990,502 : 978]'
 
@@ -88,7 +96,7 @@ pro europa_master, part=part
 
     files_drive = "D:\More Europa Data\Perkins RIPS - April 2018\rips_europa\Processed"
     files_desktop = "C:\Users\elovett\EuropaResearch\More Europa Data\Perkins RIPS - April 2018\rips_europa\Processed"
-    files = files_drive
+    files = files_desktop
     filter = "*BSCR.fits"
     BSCRfiles = FILE_SEARCH(files, filter, count=n_Files)
     newimg = fltarr(1024,544)
@@ -128,8 +136,7 @@ pro europa_master, part=part
 
 ; SECOND, use the moon's drift slit exposure to get the polynomial for the curvature & straighten:
       moonfile = 'C:\Users\elovett\EuropaResearch\More Europa Data\Perkins RIPS - April 2018\Moon_Surface_DriiftScan.fits'
-      moonfile_drive = 'D:\More Europa Data\Perkins RIPS - April 2018\Moon_Surface_DriiftScan.fits'
-      array = MRDFITS(moonfile_drive, 0, header, /Fscale, /silent)
+      array = MRDFITS(moonfile, 0, header, /Fscale, /silent)
       array = float(array)
       moonspecchan = array[*,480:*]
 
