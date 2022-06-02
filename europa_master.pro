@@ -66,8 +66,8 @@ pro europa_master, part=part
 
     ; Process the spectral frames
       window, 0, xs = 1024, ys = 1024
-      ;      filenames = ['Moon_Na_Detection_MinSlit-SubsolarLimb-scan_New.fits', 'Moon_Na_Detection_MinSlit-SubsolarLimb-scan2_New.fits']
-      filenames = file_search(directory+'rips_europa\'+'Europa*')
+            filenames = ['Moon_Na_Detection_MinSlit-SubsolarLimb-scan_New.fits', 'Moon_Na_Detection_MinSlit-SubsolarLimb-scan2_New.fits']
+      ;filenames = file_search(directory+'rips_europa\'+'Europa*')
       summed_spectrum = fltarr(1024)
       for i = 0, n_elements(filenames)-1 do begin
         filename = strcompress(filenames[i])
@@ -86,13 +86,13 @@ pro europa_master, part=part
      
       ; Hack, Hack, Hack, Hack, Hack, Hack, Hack, Hack!!!!!!!
       ; Data are not flat fielded, unclear yet, if flat fielding helps!!!
-        ;        yshift       = -1.5
-        ;        sky          = MRDFITS(directory+'Sky_58.fits', 0, header, /Dscale, /silent ) - bias
-        ;        flat         = Na_flat_spectra[*, 480:*]
-        ;        s            = size(flat, /dim)    
-        ;        shifted_flat = INTERPOLATE(flat, findgen(s[0]), findgen(s[1]) + yshift, Missing = -1, /grid)
+                ;yshift       = -1.5
+                ;sky          = MRDFITS(directory+'Sky_58.fits', 0, header, /Dscale, /silent ) - bias
+                flat         = Na_flat_spectra[*, 480:*]
+                s            = size(flat, /dim)    
+                shifted_flat = INTERPOLATE(flat, findgen(s[0]), findgen(s[1]) + yshift, Missing = -1, /grid)
         shifted_flat = 1.
-      
+      stop
       BSCR[*, 480:* ] = BSCR[*, 480:* ] / shifted_flat
 
       ; Hack, Hack, Hack, Hack, Hack, Hack, Hack, Hack!!!!!!!
